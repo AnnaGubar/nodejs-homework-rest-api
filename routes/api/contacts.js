@@ -15,7 +15,8 @@ router.post('/', async (req, res, next) => {
 })
 
 router.delete('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
+  // res.json({ message: 'template message' })
+  res.json({ message: 'n' })
 })
 
 router.put('/:contactId', async (req, res, next) => {
