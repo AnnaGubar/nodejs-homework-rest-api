@@ -3,4 +3,6 @@
 3. controllers -> users -> `signup.js` `login.js`
 4. middlewares -> `auth.js` 
 5. routs/api/contacts.js сделать все роуты приватные добавив контроллер auth
+6. routs/api/users.js -> роут `"/logout"` добавить контроллер auth
+7. controllers /users -> `logout.js`
 
