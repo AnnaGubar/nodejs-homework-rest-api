@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { controllerWrapper } = require("../../helpers");
+const { auth } = require("../../middlewares");
 const {
   getAll,
   getById,
@@ -10,7 +11,7 @@ const {
   updateFavorite,
 } = require("../../controllers/contacts");
 
-router.get("/", controllerWrapper(getAll));
+router.get("/", auth, controllerWrapper(getAll));
 router.get("/:id", controllerWrapper(getById));
 router.post("/", controllerWrapper(add));
 router.delete("/:id", controllerWrapper(removeById));
