@@ -1,8 +1,9 @@
 const bcrypt = require("bcryptjs");
 const gravatar = require("gravatar");
+const { nanoid } = require("nanoid");
 
 const { User, registerSchema } = require("../../models/user");
-const { createError } = require("../../helpers");
+const { createError, sendEmail } = require("../../helpers");
 
 const register = async (req, res) => {
   const { error } = registerSchema.validate(req.body);
@@ -10,22 +11,30 @@ const register = async (req, res) => {
     throw createError(400, error.message);
   }
 
-  // console.log(req.body) // { email: 'lena@lena.com', password: '123123' }
-
   const { email, password } = req.body;
 
-  // есть ли такой email в базе
   const user = await User.findOne({ email });
   if (user) {
     throw createError(409, "Email in use");
   }
 
   const hashPassword = await bcrypt.hash(password, 10);
-
   const avatarURL = gravatar.url(email);
-  // console.log("~ avatarURL", avatarURL); // www.gravatar.com/avatar/923adbe7a93aafe9913830a939a50dc2
+  const verificationToken = nanoid();
+  const result = await User.create({
+    ...req.body,
+    password: hashPassword,
+    avatarURL,
+    verificationToken,
+  });
 
-  const result = await User.create({ ...req.body, password: hashPassword,avatarURL });
+  const mail = {
+    to: email,
+    subject: "Подтверждение регистрации на сайте",
+    html: `<a target="_blank" href="http://localhost:3000/api/auth/verify/${verificationToken}">Нажмите для подтверждения регистрации</a>`,
+  };
+
+  await sendEmail(mail);
 
   res.status(201).json({
     email: result.email,

@@ -13,5 +13,13 @@
 12. controllers/users/signup.js создание рандомной авы`npm i gravatar`
 13. routs/api/users.js -> роут `"/avatars"` для обновление авы пользователем метод PATCH
 14. middlewares -> `upload.js` конфиг для считывания и сохранения картинки `npm i multer`
-14. controllers/users -> `setAvatar.js` 
-
+15. controllers/users -> `setAvatar.js` 
+# email verification
+16. helpers -> `sendEmail.js`
+17. models/user - добавляем поля `verify` `verificationToken`
+18. controllers/auth/register.js - генерируем токен, добавляем в запрос, создаем и отправляем email
+19. controllers/auth -> `verifyEmail.js`
+20. routs/api/users.js -> `"/verify/:verificationToken"` + verifyEmail
+21. controllers/auth/login.js -> генерировать токен только для подтвердивших почту
+22. controllers/auth -> `resendVerifyEmail.js`
+23. routs/api/users.js -> `"/verify"` + resendVerifyEmail
