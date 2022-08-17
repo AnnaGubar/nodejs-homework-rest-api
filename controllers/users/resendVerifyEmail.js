@@ -6,7 +6,7 @@ const resendVerifyEmail = async (req, res) => {
   const { email } = req.body;
   const { error } = emailSchema.validate({ email });
   if (error) {
-    throw createError(400, error.message);
+    throw createError(400, "Missing required field email");
   }
 
   // есть ли пользователь с такой почтой
@@ -23,7 +23,7 @@ const resendVerifyEmail = async (req, res) => {
   const mail = {
     to: email,
     subject: "Подтверждение регистрации на сайте",
-    html: `<a target="_blank" href="http://localhost:3000/api/auth/verify/${user.verificationToken}">Нажмите для подтверждения регистрации</a>`,
+    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${user.verificationToken}">Нажмите для подтверждения регистрации</a>`,
   };
 
   await sendEmail(mail);

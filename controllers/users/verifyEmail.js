@@ -8,7 +8,7 @@ const verifyEmail = async(req, res) => {
     
     // пользователь либо не регистрировался либо уже подтвердил свою почту
     if(!user) {
-        throw createError(404);
+        throw createError(404, "User not found");
     }
 
     // верификация пройдена - verify: true
